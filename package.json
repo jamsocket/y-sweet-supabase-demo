@@ -1,0 +1,47 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,md}\""
+  },
+  "dependencies": {
+    "@radix-ui/react-checkbox": "^1.1.1",
+    "@radix-ui/react-dropdown-menu": "^2.1.1",
+    "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@react-three/drei": "^9.114.3",
+    "@react-three/fiber": "^8.17.10",
+    "@supabase/ssr": "latest",
+    "@supabase/supabase-js": "latest",
+    "@uiw/react-color": "^2.3.2",
+    "@y-sweet/react": "^0.5.0",
+    "@y-sweet/sdk": "^0.5.0",
+    "autoprefixer": "10.4.17",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "geist": "^1.2.1",
+    "lucide-react": "^0.436.0",
+    "next": "latest",
+    "next-themes": "^0.3.0",
+    "prettier": "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.8",
+    "quill": "^2.0.2",
+    "quill-cursors": "^4.0.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "three": "^0.169.0",
+    "y-quill": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "20.10.6",
+    "@types/react": "18.2.46",
+    "@types/react-dom": "18.2.18",
+    "postcss": "8.4.33",
+    "tailwind-merge": "^2.5.2",
+    "tailwindcss": "3.4.1",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "5.3.3"
+  }
+}
