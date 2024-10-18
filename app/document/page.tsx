@@ -3,7 +3,7 @@ import CreateDoc from "@/components/create-doc";
 import DisplayDocs from "@/components/display-docs";
 import { redirect } from "next/navigation";
 
-export default async function ProtectedPage() {
+export default async function DocumentHome() {
   const supabase = createClient();
 
   const {
