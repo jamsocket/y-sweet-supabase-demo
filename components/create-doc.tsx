@@ -2,8 +2,10 @@
 import React from "react";
 import { Button } from "./ui/button";
 import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
 
 export default function CreateDoc() {
+  const router = useRouter();
   const supabase = createClient();
 
   const createDoc = async () => {
@@ -52,12 +54,12 @@ export default function CreateDoc() {
       return;
     }
 
-    alert("Doc created and permission set successfully");
+    router.push(`/document/${ysweetDoc.docId}`);
   };
 
   return (
     <>
-      <Button onClick={() => createDoc()}>Create new doc</Button>
+      <Button onClick={() => createDoc()}>+ Create new doc</Button>
     </>
   );
 }

@@ -7,7 +7,8 @@ export async function POST(request: Request) {
   // const supabase = createClient()
   // console.log('2')
   const ysweetDoc = await createDoc(
-process.env.Y_SWEET_CONNECTION_STRING ?? '');
+    process.env.Y_SWEET_CONNECTION_STRING ?? "",
+  );
 
   return new Response(JSON.stringify(ysweetDoc));
   // console.log('3')

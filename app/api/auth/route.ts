@@ -2,7 +2,8 @@ import { DocumentManager } from "@y-sweet/sdk";
 import { NextResponse } from "next/server";
 
 const manager = new DocumentManager(
-process.env.Y_SWEET_CONNECTION_STRING ?? '');
+  process.env.Y_SWEET_CONNECTION_STRING ?? "",
+);
 
 export async function POST(request: Request) {
   // In a production app, this is where you'd authenticate the user
