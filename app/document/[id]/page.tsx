@@ -1,12 +1,11 @@
 "use client";
-import React, { use, useEffect } from "react";
+import React, { useEffect } from "react";
 import { YDocProvider } from "@y-sweet/react";
 import { usePathname } from "next/navigation";
 import { createClient } from "../../../utils/supabase/client";
 import { SlateEditor } from "../../../components/slate/SlateEditor";
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
-import { useRouter } from "next/navigation";
 
 export default function Docs() {
   const pathname = usePathname();
@@ -24,6 +23,7 @@ export default function Docs() {
     doc_id: "",
     is_public: false,
   });
+
   const [hasAccess, setHasAccess] = React.useState(false);
   const supabase = createClient();
 
@@ -33,16 +33,14 @@ export default function Docs() {
         data: { user },
       } = await supabase.auth.getUser();
 
-      console.log(user);
-
       const { data: docsData, error } = await supabase
-        .from("docs")
-        .select("*") // Replace "*" with specific fields if you only need certain columns
-        .eq("doc_id", docId);
+      .from("docs")
+      .select("*")
+      .eq("doc_id", docId);
 
-      console.log(docsData);
+      console.log(docsData)
 
-      if (!docsData || docsData.length === 0) {
+      if(!docsData || docsData.length === 0) {
         console.error("Document not found");
         return;
       }
@@ -60,17 +58,14 @@ export default function Docs() {
       } else {
         // Step 3: Check if the user has access in the permissions table
         const { data: permissionsData, error: permError } = await supabase
-          .from("permissions")
-          .select("permission_type")
-          .eq("doc_id", docsData[0].id) // Match the document by its id
-          .eq("user_id", user?.id) // Ensure user.id is being passed here
-          .single();
+        .from("permissions")
+        .select("permission_type")
+        .eq("doc_id", docsData[0].id) // Match the document by its id
+        .eq("user_id", user?.id) // Ensure user.id is being passed here
+        .single();
 
         if (permError || !permissionsData) {
-          console.error(
-            "User does not have access to this document",
-            permError,
-          );
+          console.error("User does not have access to this document", permError);
         } else {
           // If user has permissions, grant access
           setHasAccess(true);
@@ -79,7 +74,7 @@ export default function Docs() {
     }
 
     fetchDocs();
-  }, [docId]);
+  }, [docId])
 
   const copyToClipboard = async () => {
     const textToCopy = `${window.location.origin}/document/${docId}`;
@@ -95,7 +90,7 @@ export default function Docs() {
     }
   };
 
-  if (!hasAccess) {
+  if(!hasAccess) {
     return <div>Unauthorized</div>;
   }
 
@@ -103,48 +98,53 @@ export default function Docs() {
     return <div>Document not found</div>;
   }
 
+
   const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setDocMetadata((prevMetadata) => ({
-      ...prevMetadata, // Spread the previous metadata properties
-      name: e.target.value, // Only update the name property
+      ...prevMetadata,      // Spread the previous metadata properties
+      name: e.target.value  // Only update the name property
     }));
 
-    let inThrottle = false;
+    let inThrottle = false
     if (!inThrottle) {
-      inThrottle = true;
+      inThrottle = true
 
       await supabase
-        .from("docs") // Assuming your table name is "docs"
-        .update({ name: e.target.value }) // Update the name field
-        .eq("doc_id", docId); // Match the document by its id
+      .from("docs") // Assuming your table name is "docs"
+      .update({ name: e.target.value }) // Update the name field
+      .eq("doc_id", docId); // Match the document by its id
 
       setTimeout(() => {
-        inThrottle = false;
-      }, 1000); // Throttle time of 1 second
+        inThrottle = false
+      }, 1000);  // Throttle time of 1 second
     }
-  };
+
+};
+
 
   return (
     <div className="">
       <div className="flex justify-between items-center py-3 text-sm">
-        <Input
-          value={docMetadata.name ?? ""}
-          onChange={handleInputChange}
-          // onKeyDown={handleKeyDown}
-          className="text-2xl font-bold mb-4 w-fit"
-          placeholder="Enter document name"
-        />
-        <Button onClick={() => setIsModalOpen(true)}>Share</Button>
+      <Input
+        value={docMetadata.name  ?? ""}
+        onChange={handleInputChange}
+        // onKeyDown={handleKeyDown}
+        className="text-2xl font-bold mb-4 w-fit"
+        placeholder="Enter document name"
+      />
+      {<Button onClick={() => setIsModalOpen(true)}>
+          Share
+        </Button>}
       </div>
       <YDocProvider docId={docId} authEndpoint="/api/auth">
-        <SlateEditor />
+        <SlateEditor/>
       </YDocProvider>
 
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="relative bg-white rounded-lg p-6 w-full max-w-lg text-black ">
             <h2 className="text-2xl mb-4">Share document</h2>
-            <AddByEmail id={docMetadata.id} />
+            <AddByEmail id={docMetadata.id}/>
             <LinkPermissions docId={docId} isPublic={docMetadata.is_public} />
             <div className="flex gap-4 pt-6">
               <button
@@ -185,41 +185,41 @@ export function LinkPermissions(props: LinkPermissionsProps) {
   const supabase = createClient();
 
   const handleToggle = () => {
-    console.log("handle toggle");
+    console.log('handle toggle')
     setIsToggle(!isToggle); // Toggle the state between true and false
 
-    console.log(isToggle);
+    console.log(isToggle)
     async function updateDocMetadata() {
-      // Update the document's public status in Supabase
+    // Update the document's public status in Supabase
       const { data: docsData, error } = await supabase
         .from("docs")
         .update({ is_public: !isToggle }) // Toggle the is_public field
-        .eq("doc_id", docId); // Match the document by its id
+        .eq("doc_id", docId) // Match the document by its id
     }
-    updateDocMetadata();
+    updateDocMetadata()
   };
 
-  return (
+  return(
     <div className="flex items-center gap-4">
       <div>Make this document public</div>
       <div className="flex items-center justify-center">
-        {/* Toggle Button */}
+      {/* Toggle Button */}
+      <div
+        onClick={() => handleToggle()}
+        className={`w-16 h-8 flex items-center bg-gray-300 rounded-full p-1 cursor-pointer transition-colors duration-300 ${
+          isToggle ? 'bg-green-500' : 'bg-gray-300'
+        }`}
+      >
+        {/* Toggle Circle */}
         <div
-          onClick={() => handleToggle()}
-          className={`w-16 h-8 flex items-center bg-gray-300 rounded-full p-1 cursor-pointer transition-colors duration-300 ${
-            isToggle ? "bg-green-500" : "bg-gray-300"
+          className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform duration-300 ${
+            isToggle ? 'translate-x-8' : 'translate-x-0'
           }`}
-        >
-          {/* Toggle Circle */}
-          <div
-            className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform duration-300 ${
-              isToggle ? "translate-x-8" : "translate-x-0"
-            }`}
-          ></div>
-        </div>
+        ></div>
       </div>
     </div>
-  );
+    </div>
+  )
 }
 export function AddByEmail(props: AddByEmailProps) {
   const { id } = props;
@@ -231,34 +231,34 @@ export function AddByEmail(props: AddByEmailProps) {
 
   async function addPerson() {
     const { data: user, error: userError } = await supabase
-      .from("users")
-      .select("id")
-      .eq("email", newEmail)
-      .single();
+      .from('users')
+      .select('id')
+      .eq('email', newEmail)
+      .single()
 
-    if (!user || userError) {
+    if(!user || userError) {
       console.error("User not found", userError);
       setError("User not found");
       return;
     }
 
     const { data, error } = await supabase
-      .from("permissions")
-      .insert([{ doc_id: id, user_id: user.id, permission_type: selectedRole }])
-      .select();
+    .from("permissions")
+    .insert([{ doc_id: id, user_id: user.id, permission_type: selectedRole }])
+    .select();
 
     if (error) {
       console.error("Failed to insert permission", error);
       setError("Failed to provide permission to user");
       return;
     }
-    setNewEmail("");
+    setNewEmail('')
   }
 
-  return (
+  return(
     <div>
       Add people by email
-      <div className="flex items-center py-4">
+    <div className="flex items-center py-4">
         <input
           type="email"
           placeholder="invite-email@gmail.com"
@@ -266,10 +266,7 @@ export function AddByEmail(props: AddByEmailProps) {
           onChange={(e) => setNewEmail(e.target.value)}
           className="w-full px-4 py-2 border border-gray-300 bg-white rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <AccessDropdown
-          selectedRole={selectedRole}
-          setSelectedRole={setSelectedRole}
-        />
+        <AccessDropdown selectedRole={selectedRole} setSelectedRole={setSelectedRole}/>
         <button
           onClick={() => addPerson()}
           className="px-4 py-2 bg-blue-500 text-white rounded-r-md hover:bg-blue-600 focus:outline-none"
@@ -278,8 +275,8 @@ export function AddByEmail(props: AddByEmailProps) {
         </button>
       </div>
       <span className="text-xs text-red-700">{error}</span>
-    </div>
-  );
+      </div>
+  )
 }
 
 interface AccessDropdownProps {
@@ -329,9 +326,7 @@ export function AccessDropdown(props: AccessDropdownProps) {
             <button
               onClick={() => selectRole("Read")}
               className={`block px-4 py-2 text-sm w-full text-left ${
-                selectedRole === "Read"
-                  ? "bg-gray-100 font-semibold"
-                  : "hover:bg-gray-50"
+                selectedRole === "Read" ? "bg-gray-100 font-semibold" : "hover:bg-gray-50"
               }`}
             >
               Read
@@ -339,9 +334,7 @@ export function AccessDropdown(props: AccessDropdownProps) {
             <button
               onClick={() => selectRole("Write")}
               className={`block px-4 py-2 text-sm w-full text-left ${
-                selectedRole === "Write"
-                  ? "bg-gray-100 font-semibold"
-                  : "hover:bg-gray-50"
+                selectedRole === "Write" ? "bg-gray-100 font-semibold" : "hover:bg-gray-50"
               }`}
             >
               Write
