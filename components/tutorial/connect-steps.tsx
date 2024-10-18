@@ -1,6 +1,6 @@
 import { TutorialStep } from "./tutorial-step";
 
-export default function ConnectSupabaseSteps() {
+export default function ConnectSteps() {
   return (
     <ol className="flex flex-col gap-6">
       <TutorialStep title="Create Supabase project">
@@ -17,7 +17,20 @@ export default function ConnectSupabaseSteps() {
           and create a new Supabase project.
         </p>
       </TutorialStep>
-
+      <TutorialStep title="Create Y-Sweet service">
+        <p>
+          Head over to{" "}
+          <a
+            href="https://app.jamsocket.com/"
+            target="_blank"
+            className="font-bold hover:underline text-foreground/80"
+            rel="noreferrer"
+          >
+            jamsocket.com
+          </a>{" "}
+          and create a new Y-Sweet service.
+        </p>
+      </TutorialStep>
       <TutorialStep title="Declare environment variables">
         <p>
           Rename the{" "}
@@ -37,10 +50,19 @@ export default function ConnectSupabaseSteps() {
           >
             your Supabase project's API Settings
           </a>
+
+          and the connection string from
+          <a
+            href="https://app.jamsocket.com/"
+            target="_blank"
+            className="font-bold hover:underline text-foreground/80"
+            rel="noreferrer"
+          >
+your Y-Sweet service
+</a>
           .
         </p>
       </TutorialStep>
-
       <TutorialStep title="Restart your Next.js development server">
         <p>
           You may need to quit your Next.js development server and run{" "}
@@ -50,7 +72,6 @@ export default function ConnectSupabaseSteps() {
           again to load the new environment variables.
         </p>
       </TutorialStep>
-
       <TutorialStep title="Refresh the page">
         <p>
           You may need to refresh the page for Next.js to load the new

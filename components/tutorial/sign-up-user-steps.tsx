@@ -83,6 +83,18 @@ export default function SignUpUserSteps() {
           now. Your awesome idea will have plenty of users later!
         </p>
       </TutorialStep>
+      <TutorialStep title="Create a collaborative document">
+        <p>
+          Head over to the{" "}
+          <Link
+            href="/document"
+            className="font-bold hover:underline text-foreground/80"
+          >
+            Document
+          </Link>{" "}
+          page create your first document. Add friends or make it public and collaborate live!
+        </p>
+      </TutorialStep>
     </ol>
   );
 }
