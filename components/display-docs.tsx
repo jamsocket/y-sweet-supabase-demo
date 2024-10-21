@@ -50,9 +50,8 @@ export default function DisplayDocs() {
 
         if (docsError) {
         console.error('Error fetching documents:', docsError);
-        } else {
-        console.log('Documents:', docsData);
         }
+
       const transformedDocs = docsData?.map((doc: any) => ({
         doc_id: doc.doc_id,
         name: doc.name ?? "Untitled Document", // Default to "Untitled Document" if name is null
