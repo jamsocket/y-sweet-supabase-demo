@@ -12,6 +12,7 @@ export default function DeployButton() {
           alt="Deploy to Netlify"
           width={150}
           height={20}
+          priority
           src="https://www.netlify.com/img/deploy/button.svg"
         />
       </Link>
