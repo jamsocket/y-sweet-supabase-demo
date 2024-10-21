@@ -4,6 +4,7 @@ import SignUpUserSteps from "@/components/tutorial/sign-up-user-steps";
 import { hasEnvVars } from "@/utils/supabase/check-env-vars";
 
 export default async function Index() {
+  console.log("hasEnvVars", hasEnvVars);
   return (
     <>
       <Hero />
