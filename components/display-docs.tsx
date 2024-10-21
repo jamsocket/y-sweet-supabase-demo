@@ -14,11 +14,45 @@ export default function DisplayDocs() {
 
   useEffect(() => {
     async function fetchDocs() {
-      const { data: docsData, error } = await supabase.from("docs").select("*"); // Select the doc_id field (or others as needed)
+        const {
+            data: { user },
+          } = await supabase.auth.getUser();
 
-      if (error) {
-        console.error("Error fetching documents:", error);
-      }
+          if(!user) {
+            return redirect("/sign-in");
+          }
+
+        // Step 1: Fetch document IDs where the user has 'read' or 'write' permissions
+        const { data: permissionData, error: permissionError } = await supabase
+        .from('permissions')
+        .select('doc_id')
+        .eq('user_id', user.id)
+        .in('permission_type', ['read', 'write']);
+
+        if (permissionError) {
+        console.error('Error fetching permissions:', permissionError);
+        return;
+        }
+
+        // Extract the document IDs
+        const docIds = permissionData?.map(permission => permission.doc_id) || [];
+
+        if (docIds.length === 0) {
+        console.log('No documents found for the user');
+        return;
+        }
+
+        // Step 2: Fetch documents using the fetched doc IDs
+        const { data: docsData, error: docsError } = await supabase
+        .from('docs')
+        .select('id, doc_id, is_public, name')
+        .in('id', docIds); // Use the fetched doc IDs to filter documents
+
+        if (docsError) {
+        console.error('Error fetching documents:', docsError);
+        } else {
+        console.log('Documents:', docsData);
+        }
       const transformedDocs = docsData?.map((doc: any) => ({
         doc_id: doc.doc_id,
         name: doc.name ?? "Untitled Document", // Default to "Untitled Document" if name is null
