@@ -6,7 +6,7 @@ import { Input } from "../ui/input";
 
 interface EditableDocTitleProps {
     docId: string;
-    setDocMetadata: (metadata) => void;
+    setDocMetadata: (metadata: DocumentMetadata) => void;
     docMetadata: DocumentMetadata | null;
   }
 
@@ -14,11 +14,12 @@ interface EditableDocTitleProps {
     const { docId, setDocMetadata, docMetadata } = props;
     const supabase = createClient();
     const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-      setDocMetadata((prevMetadata) => ({
-        ...prevMetadata,      // Spread the previous metadata properties
-        name: e.target.value  // Only update the name property
-      }));
-
+        if (docMetadata) {
+          setDocMetadata({
+              ...docMetadata,
+              name: e.target.value,
+          });
+        }
       let inThrottle = false
       if (!inThrottle) {
         inThrottle = true
