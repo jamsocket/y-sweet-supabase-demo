@@ -3,6 +3,10 @@ import { TutorialStep } from "./tutorial-step";
 import { ArrowUpRight } from "lucide-react";
 
 export default function SignUpUserSteps() {
+  console.log("Netlify", process.env.NETLIFY);
+  console.log("build id", process.env.BUILD_ID);
+  console.log("url", process.env.URL);
+
   return (
     <ol className="flex flex-col gap-6">
       {process.env.NETLIFY ? (
