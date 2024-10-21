@@ -23,7 +23,6 @@ export default function InviteByEmail(props: InviteByEmailProps) {
         .select('id')
         .eq('email', newEmail)
         .single()
-        console.log(user)
 
       if(!user || userError) {
         console.error("User not found", userError);
@@ -31,7 +30,7 @@ export default function InviteByEmail(props: InviteByEmailProps) {
         return;
       }
 
-      const { data, error } = await supabase
+      const { error } = await supabase
       .from("permissions")
       .insert([{ doc_id: id, user_id: user.id, permission_type: selectedRole }])
       .select();

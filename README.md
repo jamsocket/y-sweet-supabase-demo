@@ -75,7 +75,42 @@ If you wish to just develop locally and not deploy to Netlify, [follow the steps
 
    You can create a connection string in [your Y-Sweet service page](https://app.jamsocket.com) and supply the value to `Y_SWEET_CONNECTION_STRING`
 
-5. You can now run the Next.js local development server:
+5. Configure your Supabase Database using the SQL editor in the Supabase Dashboard. These are the relevant tables to get run the demo.
+   ``` sql
+   CREATE TABLE public.docs (
+      id uuid DEFAULT gen_random_uuid() PRIMARY KEY, -- Unique identifier for the document
+      doc_id text NOT NULL -- Document ID string
+      is_public boolean
+    );
+
+    CREATE TABLE public.permissions (
+      id uuid DEFAULT gen_random_uuid() PRIMARY KEY, -- Unique identifier for the permission
+      user_id uuid REFERENCES auth.users (id) ON DELETE CASCADE, -- User ID, references the users table
+      doc_id uuid REFERENCES public.docs (id) ON DELETE CASCADE, -- Document ID, references the docs table
+      permission_type text NOT NULL -- Permission type (e.g., 'read', 'write')
+    );
+
+    CREATE TABLE public.users (
+      id uuid not null primary key, -- UUID from auth.users
+      email text
+    );
+    comment on table public.users is 'Profile data for each user.';
+    comment on column public.users.id is 'References the internal Supabase Auth user.';
+
+    CREATE OR REPLACE function public.handle_new_user()
+    returns trigger as $$
+    begin
+      insert into public.users (id, email)
+      values (new.id, new.email);
+      return new;
+    end;
+    $$ language plpgsql security definer;
+
+    CREATE trigger on_auth_user_created
+      after insert on auth.users
+      for each row execute procedure public.handle_new_user();
+   ```
+6. You can now run the Next.js local development server:
 
    ```bash
    npm run dev
@@ -83,6 +118,6 @@ If you wish to just develop locally and not deploy to Netlify, [follow the steps
 
    The starter kit should now be running on [localhost:3000](http://localhost:3000/).
 
-6. This template comes with the default shadcn/ui style initialized. If you instead want other ui.shadcn styles, delete `components.json` and [re-install shadcn/ui](https://ui.shadcn.com/docs/installation/next)
+7. This template comes with the default shadcn/ui style initialized. If you instead want other ui.shadcn styles, delete `components.json` and [re-install shadcn/ui](https://ui.shadcn.com/docs/installation/next)
 
 > Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.

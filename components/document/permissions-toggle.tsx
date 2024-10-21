@@ -15,10 +15,7 @@ interface PermissionsToggleProps {
     const supabase = createClient();
 
     const handleToggle = () => {
-      console.log('handle toggle')
       setIsToggle(!isToggle); // Toggle the state between true and false
-
-      console.log(isToggle)
       setToolTipMessage(!isToggle ? 'Document made public' : 'Document made private')
 
       async function updateDocMetadata() {

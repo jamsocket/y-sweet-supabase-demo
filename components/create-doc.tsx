@@ -12,13 +12,12 @@ export default function CreateDoc() {
     let response = await fetch("/api/docs", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json", // Set content type if you're sending JSON data
+        "Content-Type": "application/json",
       },
     });
 
     const ysweetDoc = await response.json();
 
-    // Check if user is authenticated
     const {
       data: { user },
       error: userError,
@@ -29,7 +28,6 @@ export default function CreateDoc() {
       return;
     }
 
-    // Insert the document into the 'docs' table
     const { data: docData, error: docError } = await supabase
       .from("docs")
       .insert([{ doc_id: ysweetDoc.docId }])
@@ -40,9 +38,7 @@ export default function CreateDoc() {
       return;
     }
 
-    console.log(user.id, docData, docData[0].id);
-    // Insert user permission for the document
-    const { data: permData, error: permError } = await supabase
+    const { error: permError } = await supabase
       .from("permissions")
       .insert([
         { user_id: user.id, doc_id: docData[0].id, permission_type: "write" },

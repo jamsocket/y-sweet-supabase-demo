@@ -8,12 +8,11 @@ import { ThemeProvider } from "next-themes";
 import Link from "next/link";
 import "./globals.css";
 
-const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
+const defaultUrl = process.env.NETLIFY
+  ? process.env.URL || process.env.DEPLOY_URL
+  : 'http://localhost:3000';
 
 export const metadata = {
-  metadataBase: new URL(defaultUrl),
   title: "Y-Sweet and Supabase Starter Kit",
   description:
     "An epic collaborative text editor powered by Y-Sweet and Supabase.",
