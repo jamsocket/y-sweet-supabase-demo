@@ -79,7 +79,7 @@ If you wish to just develop locally and not deploy to Netlify, [follow the steps
    ``` sql
    CREATE TABLE public.docs (
       id uuid DEFAULT gen_random_uuid() PRIMARY KEY, -- Unique identifier for the document
-      doc_id text NOT NULL -- Document ID string
+      doc_id text NOT NULL, -- Document ID string
       is_public boolean
     );
 
