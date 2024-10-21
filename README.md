@@ -75,7 +75,7 @@ If you wish to just develop locally and not deploy to Netlify, [follow the steps
 
    You can create a connection string in [your Y-Sweet service page](https://app.jamsocket.com) and supply the value to `Y_SWEET_CONNECTION_STRING`
 
-5. Configure your Supabase Database using the SQL editor in the Supabase Dashboard. These are the relevant tables to get run the demo.
+5. Configure your Supabase Database using the SQL editor in the Supabase Dashboard to store and retrieve document metadata for your app.
    ``` sql
    CREATE TABLE public.docs (
       id uuid DEFAULT gen_random_uuid() PRIMARY KEY, -- Unique identifier for the document
@@ -110,6 +110,7 @@ If you wish to just develop locally and not deploy to Netlify, [follow the steps
       after insert on auth.users
       for each row execute procedure public.handle_new_user();
    ```
+
 6. You can now run the Next.js local development server:
 
    ```bash
@@ -118,6 +119,4 @@ If you wish to just develop locally and not deploy to Netlify, [follow the steps
 
    The starter kit should now be running on [localhost:3000](http://localhost:3000/).
 
-7. This template comes with the default shadcn/ui style initialized. If you instead want other ui.shadcn styles, delete `components.json` and [re-install shadcn/ui](https://ui.shadcn.com/docs/installation/next)
-
-> Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
+7. Y-Sweet allows you to choose where you persist your documents. This demo uses Y-Sweets Bring Your Own Storage feature to automatically persist your document to your own AWS S3 Bucket. Contact us to get set up, or explore Supabase's own blog storage service.
