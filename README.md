@@ -1,10 +1,10 @@
 <a href="https://y-sweet-supabase-demo.netlify.app/" align="center">
   <img src="/app/opengraph-image.png" alt="opengraph-image" style="display: block; margin: 0 auto;" />
-  <h1 align="center">Y-Sweet and Supabase Starter Kit</h1>
+  <h1 align="center">Jamsocket and Supabase Starter Kit</h1>
 </a>
 
 <p align="center">
- The fastest way to build apps with Supabase and Y-Sweet
+ The fastest way to build apps with Supabase and Y-Sweet by Jamsocket
 </p>
 
 <p align="center">
@@ -24,9 +24,9 @@
   - Document persistence
   - It just works!
 
-## How Supabase and Y-Sweet work together
+## How Supabase and Jamsocket work together
 
-Use Y-Sweet for document collaboration.
+Use Y-Sweet, Jamsocket's Yjs server, for document collaboration.
 - Y-Sweet is a Yjs sync server with built-in persistence to S3. This demo uses Y-Sweet to sync and persist documents as users edit.
 
 Use Supabase for document management.
