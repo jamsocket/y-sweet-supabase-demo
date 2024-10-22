@@ -12,6 +12,7 @@ const defaultUrl = process.env.URL
   : 'http://localhost:3000';
 
 export const metadata = {
+  metadataBase: new URL(defaultUrl),
   title: "Y-Sweet and Supabase Starter Kit",
   description:
     "An epic collaborative text editor powered by Y-Sweet and Supabase.",

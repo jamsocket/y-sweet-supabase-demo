@@ -1,3 +1,4 @@
+![opengraph-image](/app/opengraph-image.png)
 <a href="https://demo-y-sweet-supabase.vercel.app/">
   <h1 align="center">Y-Sweet and Supabase Starter Kit</h1>
 </a>
