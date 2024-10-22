@@ -7,9 +7,7 @@ import { ThemeProvider } from "next-themes";
 import Link from "next/link";
 import "./globals.css";
 
-const defaultUrl = process.env.URL
-  ? process.env.URL
-  : 'http://localhost:3000';
+const defaultUrl = process.env.URL ? process.env.URL : "http://localhost:3000";
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),

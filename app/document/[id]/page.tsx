@@ -15,14 +15,16 @@ export type DocumentMetadata = {
   id: string;
   doc_id: string;
   is_public: boolean;
-}
+};
 export default function DocumentPage() {
   const pathname = usePathname();
   const docId = pathname.split("/").pop();
   const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [toolTipMessage, setToolTipMessage] = React.useState('');
+  const [toolTipMessage, setToolTipMessage] = React.useState("");
   const [hasAccess, setHasAccess] = React.useState(false);
-  const [docMetadata, setDocMetadata] = React.useState<DocumentMetadata | null>(null);
+  const [docMetadata, setDocMetadata] = React.useState<DocumentMetadata | null>(
+    null,
+  );
   const supabase = createClient();
 
   useEffect(() => {
@@ -32,11 +34,11 @@ export default function DocumentPage() {
       } = await supabase.auth.getUser();
 
       const { data: docsData } = await supabase
-      .from("docs")
-      .select("*")
-      .eq("doc_id", docId);
+        .from("docs")
+        .select("*")
+        .eq("doc_id", docId);
 
-      if(!docsData || docsData.length === 0) {
+      if (!docsData || docsData.length === 0) {
         console.error("Document not found");
         return;
       }
@@ -52,14 +54,16 @@ export default function DocumentPage() {
         setHasAccess(true);
       } else {
         const { data: permissionsData, error: permError } = await supabase
-        .from("permissions")
-        .select("permission_type")
-        .eq("doc_id", docsData[0].id)
-        .eq("user_id", user?.id)
-        .single();
+          .from("permissions")
+          .select("permission_type")
+          .eq("doc_id", docsData[0].id)
+          .eq("user_id", user?.id);
 
         if (permError || !permissionsData) {
-          console.error("User does not have access to this document", permError);
+          console.error(
+            "User does not have access to this document",
+            permError,
+          );
         } else {
           setHasAccess(true);
         }
@@ -67,10 +71,9 @@ export default function DocumentPage() {
     }
 
     fetchDocMetadata();
-  }, [docId])
+  }, [docId]);
 
-
-  if(!hasAccess) {
+  if (!hasAccess) {
     return <div>Unauthorized</div>;
   }
 
@@ -81,22 +84,31 @@ export default function DocumentPage() {
   return (
     <div>
       <div className="flex justify-between items-center py-3 text-sm">
-      <EditableDocTitle docId={docId} setDocMetadata={setDocMetadata} docMetadata={docMetadata}/>
-        <Button onClick={() => setIsModalOpen(true)}>
-          Share
-        </Button>
+        <EditableDocTitle
+          docId={docId}
+          setDocMetadata={setDocMetadata}
+          docMetadata={docMetadata}
+        />
+        <Button onClick={() => setIsModalOpen(true)}>Share</Button>
       </div>
       <YDocProvider docId={docId} authEndpoint="/api/auth">
-        <SlateEditor/>
+        <SlateEditor />
       </YDocProvider>
-      {isModalOpen  && docMetadata && (
+      {isModalOpen && docMetadata && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="relative bg-white rounded-lg p-6 w-full max-w-lg text-black ">
             <h2 className="text-2xl mb-4">Share document</h2>
-            <InviteByEmail id={docMetadata.id} setToolTipMessage={setToolTipMessage}/>
-            <PermissionsToggle docId={docId} isPublic={docMetadata.is_public} setToolTipMessage={setToolTipMessage}/>
+            <InviteByEmail
+              id={docMetadata.id}
+              setToolTipMessage={setToolTipMessage}
+            />
+            <PermissionsToggle
+              docId={docId}
+              isPublic={docMetadata.is_public}
+              setToolTipMessage={setToolTipMessage}
+            />
             <div className="flex gap-4 pt-6">
-              <CopyLink docId={docId} setToolTipMessage={setToolTipMessage}/>
+              <CopyLink docId={docId} setToolTipMessage={setToolTipMessage} />
               <button onClick={() => setIsModalOpen(false)}>Done</button>
               {toolTipMessage && (
                 <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 bg-gray-800 text-white text-sm py-1 px-3 rounded shadow-lg">

@@ -50,7 +50,6 @@ export default function ConnectSteps() {
           >
             your Supabase project's API Settings
           </a>
-
           and the connection string from
           <a
             href="https://app.jamsocket.com/"
@@ -58,8 +57,8 @@ export default function ConnectSteps() {
             className="font-bold hover:underline text-foreground/80"
             rel="noreferrer"
           >
-your Y-Sweet service
-</a>
+            your Y-Sweet service
+          </a>
           .
         </p>
       </TutorialStep>

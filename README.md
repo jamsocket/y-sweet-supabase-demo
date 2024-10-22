@@ -27,9 +27,11 @@
 ## How Supabase and Jamsocket work together
 
 Use Y-Sweet, Jamsocket's Yjs server, for document collaboration.
+
 - Y-Sweet is a Yjs sync server with built-in persistence to S3. This demo uses Y-Sweet to sync and persist documents as users edit.
 
 Use Supabase for document management.
+
 - Supabase manages everything around the document, from document permissions to user authentication.
 
 ## Demo
@@ -52,19 +54,19 @@ If you wish to just develop locally and not deploy to Netlify, [follow the steps
 
 1. Create Supabase project [via the Supabase dashboard](https://database.new)
 
-2. Create a Next.js app using the Y-Sweet Supabase Starter template npx command
+1. Create a Next.js app using the Y-Sweet Supabase Starter template npx command
 
    ```bash
    npx create-next-app -e with-y-sweet-supabase
    ```
 
-3. Use `cd` to change into the app's directory
+1. Use `cd` to change into the app's directory
 
    ```bash
    cd name-of-new-app
    ```
 
-4. Rename `.env.example` to `.env.local` and update the following:
+1. Rename `.env.example` to `.env.local` and update the following:
 
    ```
    NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
@@ -76,8 +78,9 @@ If you wish to just develop locally and not deploy to Netlify, [follow the steps
 
    You can create a connection string in [your Y-Sweet service page](https://app.jamsocket.com) and supply the value to `Y_SWEET_CONNECTION_STRING`
 
-5. Configure your Supabase Database using the SQL editor in the Supabase Dashboard to store and retrieve document metadata for your app.
-   ``` sql
+1. Configure your Supabase Database using the SQL editor in the Supabase Dashboard to store and retrieve document metadata for your app.
+
+   ```sql
    CREATE TABLE public.docs (
       id uuid DEFAULT gen_random_uuid() PRIMARY KEY, -- Unique identifier for the document
       doc_id text NOT NULL, -- Document ID string
@@ -113,7 +116,7 @@ If you wish to just develop locally and not deploy to Netlify, [follow the steps
       for each row execute procedure public.handle_new_user();
    ```
 
-6. You can now run the Next.js local development server:
+1. You can now run the Next.js local development server:
 
    ```bash
    npm run dev
@@ -121,4 +124,4 @@ If you wish to just develop locally and not deploy to Netlify, [follow the steps
 
    The starter kit should now be running on [localhost:3000](http://localhost:3000/).
 
-7. Y-Sweet allows you to choose where you persist your documents. This demo uses Y-Sweet's Bring Your Own Storage feature to automatically persist your document to your own AWS S3 Bucket. Contact us to get set up, or explore Supabase's own blog storage service.
+1. Y-Sweet allows you to choose where you persist your documents. This demo uses Y-Sweet's Bring Your Own Storage feature to automatically persist your document to your own AWS S3 Bucket. Contact us to get set up, or explore Supabase's own blog storage service.

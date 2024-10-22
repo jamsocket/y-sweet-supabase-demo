@@ -3,7 +3,6 @@ import { TutorialStep } from "./tutorial-step";
 import { ArrowUpRight } from "lucide-react";
 
 export default function SignUpUserSteps() {
-
   return (
     <ol className="flex flex-col gap-6">
       <TutorialStep title="Sign up your first user">
@@ -28,7 +27,8 @@ export default function SignUpUserSteps() {
           >
             Document
           </Link>{" "}
-          page create your first document. Add friends or make it public and collaborate live!
+          page create your first document. Add friends or make it public and
+          collaborate live!
         </p>
       </TutorialStep>
     </ol>

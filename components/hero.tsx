@@ -13,8 +13,14 @@ export default function Header() {
           <SupabaseLogo />
         </a>
         <span className="border-l rotate-45 h-6" />
-        <a href="https://jamsocket.com/y-sweet" className="flex" target="_blank" rel="noreferrer">
-          <span className="font-semibold pr-3">Y-Sweet by</span><JamsocketLogo />
+        <a
+          href="https://jamsocket.com/y-sweet"
+          className="flex"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <span className="font-semibold pr-3">Y-Sweet by</span>
+          <JamsocketLogo />
         </a>
       </div>
       <h1 className="sr-only">Supabase and Y-Sweet Starter Template</h1>
