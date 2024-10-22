@@ -1,5 +1,5 @@
-![opengraph-image](/app/opengraph-image.png)
-<a href="https://demo-y-sweet-supabase.vercel.app/">
+<a href="https://y-sweet-supabase-demo.netlify.app/" align="center">
+  <img src="/app/opengraph-image.png" alt="opengraph-image" style="display: block; margin: 0 auto;" />
   <h1 align="center">Y-Sweet and Supabase Starter Kit</h1>
 </a>
 
