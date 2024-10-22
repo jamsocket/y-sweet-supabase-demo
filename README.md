@@ -121,4 +121,4 @@ If you wish to just develop locally and not deploy to Netlify, [follow the steps
 
    The starter kit should now be running on [localhost:3000](http://localhost:3000/).
 
-7. Y-Sweet allows you to choose where you persist your documents. This demo uses Y-Sweets Bring Your Own Storage feature to automatically persist your document to your own AWS S3 Bucket. Contact us to get set up, or explore Supabase's own blog storage service.
+7. Y-Sweet allows you to choose where you persist your documents. This demo uses Y-Sweet's Bring Your Own Storage feature to automatically persist your document to your own AWS S3 Bucket. Contact us to get set up, or explore Supabase's own blog storage service.
