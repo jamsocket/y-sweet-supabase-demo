@@ -54,10 +54,10 @@ export default function DocumentPage() {
         setHasAccess(true);
       } else {
         const { data: permissionsData, error: permError } = await supabase
-          .from("permissions")
-          .select("permission_type")
-          .eq("doc_id", docsData[0].id)
-          .eq("user_id", user?.id);
+        .from("permissions")
+        .select("id") // Only select the id to check for existence
+        .eq("doc_id", docsData[0].id)
+        .eq("user_id", user?.id);
 
         if (permError || !permissionsData) {
           console.error(
