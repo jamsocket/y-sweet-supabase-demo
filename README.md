@@ -1,7 +1,5 @@
-<a href="https://y-sweet-supabase-demo.netlify.app/" align="center">
-  <img src="/app/opengraph-image.png" alt="opengraph-image" style="display: block; margin: 0 auto;" />
-  <h1 align="center">Jamsocket and Supabase Starter Kit</h1>
-</a>
+<img src="/app/opengraph-image.png" alt="opengraph-image" style="display: block; margin: 0 auto;" />
+<h1 align="center">Jamsocket and Supabase Starter Kit</h1>
 
 <p align="center">
  The fastest way to build apps with Supabase and Y-Sweet by Jamsocket
@@ -44,7 +42,7 @@ You can view a fully working demo at [demo-y-sweet-supabase.netlify.app](https:/
 
 The above will also clone the Starter kit to your GitHub, you can clone that locally and develop locally.
 
-Once you've added this project to Netlify, install the Jamsocket and Supabase extensions to add the necessary environment variables for your application.
+Once you've added this project to Netlify, install the [Jamsocket](https://app.netlify.com/extensions/jamsocket) and [Supabase](https://app.netlify.com/extensions/supabase) extensions to add the necessary environment variables for your application.
 
 If you wish to just develop locally and not deploy to Netlify, [follow the steps below](#clone-and-run-locally).
 
@@ -52,9 +50,9 @@ If you wish to just develop locally and not deploy to Netlify, [follow the steps
 
 1. Create a Y-Sweet service [via the Jamsocket dashboard](https://app.jamsocket.com)
 
-1. Create Supabase project [via the Supabase dashboard](https://database.new)
+2. Create Supabase project [via the Supabase dashboard](https://database.new)
 
-1. Clone the Y-Sweet Supabase Starter template using
+3. Clone the Y-Sweet Supabase Starter template using
 
    ```bash
    gh repo clone jamsocket/y-sweet-supabase-demo
@@ -63,13 +61,7 @@ If you wish to just develop locally and not deploy to Netlify, [follow the steps
    git clone git@github.com:jamsocket/y-sweet-supabase-demo.git
    ```
 
-1. Use `cd` to change into the app's directory
-
-   ```bash
-   cd name-of-new-app
-   ```
-
-1. Rename `.env.example` to `.env.local` and update the following:
+4. Rename `.env.example` to `.env.local` and update the following:
 
    ```
    NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
@@ -79,9 +71,9 @@ If you wish to just develop locally and not deploy to Netlify, [follow the steps
 
    Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` can be found in [your Supabase project's API settings](https://app.supabase.com/project/_/settings/api)
 
-   You can create a connection string in [your Y-Sweet service page](https://app.jamsocket.com) and supply the value to `Y_SWEET_CONNECTION_STRING`
+   Create a connection string in [your Y-Sweet service page](https://app.jamsocket.com) and supply the value to `Y_SWEET_CONNECTION_STRING`
 
-1. Configure your Supabase Database using the SQL editor in the Supabase Dashboard to store and retrieve document metadata for your app.
+5. Configure your Supabase Database using the SQL editor in the Supabase Dashboard to store and retrieve document metadata for your app.
 
    ```sql
    CREATE TABLE public.docs (
@@ -119,7 +111,11 @@ If you wish to just develop locally and not deploy to Netlify, [follow the steps
       for each row execute procedure public.handle_new_user();
    ```
 
-1. You can now run the Next.js local development server:
+6. You can now run the Next.js local development server:
+
+   ```bash
+   npm install
+   ```
 
    ```bash
    npm run dev
@@ -127,4 +123,4 @@ If you wish to just develop locally and not deploy to Netlify, [follow the steps
 
    The starter kit should now be running on [localhost:3000](http://localhost:3000/).
 
-1. Y-Sweet allows you to choose where you persist your documents. This demo uses Y-Sweet's Bring Your Own Storage feature to automatically persist your document to your own AWS S3 Bucket. Contact us to get set up, or explore Supabase's own blog storage service.
+7. Y-Sweet allows you to choose where you persist your documents. This demo uses Y-Sweet's [Bring Your Own Storage](https://app.jamsocket.com/) feature to automatically persist your document to your own AWS S3 Bucket. [Contact us](mailto:hi@jamsocket.com) to get set up, or explore Supabase's [storage service](https://supabase.com/docs/guides/storage).
