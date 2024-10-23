@@ -55,7 +55,7 @@ export default function DocumentPage() {
       } else {
         const { data: permissionsData, error: permError } = await supabase
         .from("permissions")
-        .select("id") // Only select the id to check for existence
+        .select("id")
         .eq("doc_id", docsData[0].id)
         .eq("user_id", user?.id);
 
