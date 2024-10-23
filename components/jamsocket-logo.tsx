@@ -37,8 +37,8 @@ export default function JamsocketLogo() {
         fill="#F5F4F4"
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M86.525 4.5614H91.2382L88.2278 14.4439L91.2382 24.3264H86.525L83.6971 14.4439L86.525 4.5614ZM101.08 4.5614H100.928H96.3664H91.8053V9.12255H97.7558L98.6821 12.1634H91.8053V16.7246H98.6821L97.7558 19.7654H91.8053V24.3266H100.928V24.3264H101.08L103.908 14.4439L101.08 4.5614Z"
         fill="#62B4FF"
       />
