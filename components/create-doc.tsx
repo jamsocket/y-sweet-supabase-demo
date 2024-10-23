@@ -41,7 +41,7 @@ export default function CreateDoc() {
     const { error: permError } = await supabase
       .from("permissions")
       .insert([
-        { user_id: user.id, doc_id: docData[0].id, permission_type: "write" },
+        { user_id: user.id, doc_id: docData[0].id },
       ])
       .select();
 

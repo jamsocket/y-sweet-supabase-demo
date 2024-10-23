@@ -54,10 +54,13 @@ If you wish to just develop locally and not deploy to Netlify, [follow the steps
 
 1. Create Supabase project [via the Supabase dashboard](https://database.new)
 
-1. Create a Next.js app using the Y-Sweet Supabase Starter template npx command
+1. Clone the Y-Sweet Supabase Starter template using
 
    ```bash
-   npx create-next-app -e with-y-sweet-supabase
+   gh repo clone jamsocket/y-sweet-supabase-demo
+   ```
+   ```bash
+   git clone git@github.com:jamsocket/y-sweet-supabase-demo.git
    ```
 
 1. Use `cd` to change into the app's directory
@@ -88,12 +91,12 @@ If you wish to just develop locally and not deploy to Netlify, [follow the steps
       name text
     );
 
-    CREATE TABLE public.permissions (
-      id uuid DEFAULT gen_random_uuid() PRIMARY KEY, -- Unique identifier for the permission
-      user_id uuid REFERENCES auth.users (id) ON DELETE CASCADE, -- User ID, references the users table
-      doc_id uuid REFERENCES public.docs (id) ON DELETE CASCADE, -- Document ID, references the docs table
-      permission_type text NOT NULL -- Permission type (e.g., 'read', 'write')
-    );
+   CREATE TABLE public.permissions (
+     id uuid DEFAULT gen_random_uuid() PRIMARY KEY, -- Unique identifier for the permission
+     user_id uuid REFERENCES auth.users (id) ON DELETE CASCADE, -- User ID, references the users table
+     doc_id uuid REFERENCES public.docs (id) ON DELETE CASCADE, -- Document ID, references the docs table
+     CONSTRAINT unique_user_doc_permission UNIQUE (user_id, doc_id) -- Ensure unique combination
+   );
 
     CREATE TABLE public.users (
       id uuid not null primary key, -- UUID from auth.users

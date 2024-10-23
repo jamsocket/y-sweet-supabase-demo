@@ -27,7 +27,6 @@ export default function DisplayDocs() {
         .from("permissions")
         .select("doc_id")
         .eq("user_id", user.id)
-        .in("permission_type", ["read", "write"]);
 
       if (permissionError) {
         console.error("Error fetching permissions:", permissionError);
