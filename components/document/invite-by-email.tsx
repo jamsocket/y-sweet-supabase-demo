@@ -28,6 +28,7 @@ export default function InviteByEmail(props: InviteByEmailProps) {
       return;
     }
 
+    // In a secure production environment, this operation should be handled within a server-side action, with proper authorization checks to verify the user's permission to share the specified doc_id.
     const { error } = await supabase
       .from("permissions")
       .insert([{ doc_id: id, user_id: user.id }])
