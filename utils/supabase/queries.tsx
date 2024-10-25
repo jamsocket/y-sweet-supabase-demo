@@ -48,3 +48,51 @@ export async function changeDocVisibility(isPublic: boolean, docId: string) {
       return "Failed to update doc visibility"
     }
 }
+
+export async function getDocMetadata(docId: string) {
+    const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+    const { data: docsData, error } = await supabase
+    .from("docs")
+    .select("*")
+    .eq("doc_id", docId);
+
+  if (!docsData || docsData.length === 0 || error) {
+    console.error("Document not found", error);
+    return {
+        data: null,
+        error: "Document not found"
+    }
+  }
+
+  if (docsData[0]?.is_public) {
+    return {
+        data: docsData[0],
+        error: null
+    }
+  } else {
+    const { data: permissionsData, error: permError } = await supabase
+    .from("permissions")
+    .select("id")
+    .eq("doc_id", docsData[0].id)
+    .eq("user_id", user?.id);
+
+    if (permError || !permissionsData) {
+      console.error(
+        "User does not have access to this document",
+        permError,
+      );
+      return {
+        data: null,
+        error: "User does not have access to this document"
+    }
+    } else {
+        return {
+            data: docsData[0],
+            error: null
+        }
+    }
+  }
+}

@@ -2,13 +2,13 @@
 import React, { useEffect } from "react";
 import { YDocProvider } from "@y-sweet/react";
 import { usePathname } from "next/navigation";
-import { createClient } from "../../../utils/supabase/client";
 import { SlateEditor } from "../../../components/slate/SlateEditor";
 import { Button } from "../../../components/ui/button";
 import EditableDocTitle from "../../../components/document/editable-doc-title";
 import CopyLink from "../../../components/document/copy-link";
 import PermissionsToggle from "../../../components/document/permissions-toggle";
 import InviteByEmail from "../../../components/document/invite-by-email";
+import { getDocMetadata } from "@/utils/supabase/queries";
 
 export type DocumentMetadata = {
   name: string;
@@ -16,6 +16,7 @@ export type DocumentMetadata = {
   doc_id: string;
   is_public: boolean;
 };
+
 export default function DocumentPage() {
   const pathname = usePathname();
   const docId = pathname.split("/").pop();
@@ -25,60 +26,33 @@ export default function DocumentPage() {
   const [docMetadata, setDocMetadata] = React.useState<DocumentMetadata | null>(
     null,
   );
-  const supabase = createClient();
 
   useEffect(() => {
     async function fetchDocMetadata() {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+      if(!docId) return;
 
-      const { data: docsData } = await supabase
-        .from("docs")
-        .select("*")
-        .eq("doc_id", docId);
+      let { data: docsData } = await getDocMetadata(docId);
 
-      if (!docsData || docsData.length === 0) {
-        console.error("Document not found");
-        return;
-      }
-
-      setDocMetadata({
-        name: docsData[0].name ?? "Untitled Document",
-        id: docsData[0].id,
-        doc_id: docsData[0].doc_id,
-        is_public: docsData[0].is_public ?? false,
-      });
-
-      if (docsData[0]?.is_public) {
+      if(docsData) {
         setHasAccess(true);
-      } else {
-        const { data: permissionsData, error: permError } = await supabase
-        .from("permissions")
-        .select("id")
-        .eq("doc_id", docsData[0].id)
-        .eq("user_id", user?.id);
-
-        if (permError || !permissionsData) {
-          console.error(
-            "User does not have access to this document",
-            permError,
-          );
-        } else {
-          setHasAccess(true);
-        }
+        setDocMetadata({
+          name: docsData.name ?? "Untitled Document",
+          id: docsData.id,
+          doc_id: docsData.doc_id,
+          is_public: docsData.is_public ?? false,
+        });
       }
     }
 
     fetchDocMetadata();
   }, [docId]);
 
-  if (!hasAccess) {
-    return <div>Unauthorized</div>;
-  }
-
   if (!docId) {
     return <div>Document not found</div>;
+  }
+
+  if (!hasAccess) {
+    return <div>Unauthorized</div>;
   }
 
   return (
