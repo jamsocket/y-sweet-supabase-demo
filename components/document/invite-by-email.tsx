@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { createClient } from "../../utils/supabase/client";
+import { addUserToDoc } from "../../utils/supabase/queries";
 
 interface InviteByEmailProps {
   id: string;
@@ -13,34 +13,22 @@ export default function InviteByEmail(props: InviteByEmailProps) {
   const [newEmail, setNewEmail] = React.useState(""); // Track new email input
   const [error, setError] = React.useState(""); // Track error message
 
-  const supabase = createClient();
+  async function inviteUser() {
+    const email = newEmail.trim();
 
-  async function addPerson() {
-    const { data: user, error: userError } = await supabase
-      .from("users")
-      .select("id")
-      .eq("email", newEmail)
-      .single();
+    if (!email) {
+      setError("No email provided");
+    } else {
+      const error = await addUserToDoc(email, id);
 
-    if (!user || userError) {
-      console.error("User not found", userError);
-      setError("User not found");
-      return;
+      if (error) {
+        setError(error);
+      } else {
+        setToolTipMessage("User added");
+        setTimeout(() => setToolTipMessage(""), 2000);
+      }
     }
 
-    // In a secure production environment, this operation should be handled within a server-side action, with proper authorization checks to verify the user's permission to share the specified doc_id.
-    const { error } = await supabase
-      .from("permissions")
-      .insert([{ doc_id: id, user_id: user.id }])
-      .select();
-
-    if (error) {
-      console.error("Failed to insert permission", error);
-      setError("Failed to provide permission to user");
-      return;
-    }
-    setToolTipMessage("User added");
-    setTimeout(() => setToolTipMessage(""), 2000);
     setNewEmail("");
   }
 
@@ -56,7 +44,7 @@ export default function InviteByEmail(props: InviteByEmailProps) {
           className="w-full px-4 py-2 border border-gray-300 bg-white rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <button
-          onClick={() => addPerson()}
+          onClick={() => inviteUser()}
           className="px-4 py-2 bg-blue-500 text-white rounded-r-md hover:bg-blue-600 focus:outline-none"
         >
           Add
