@@ -22,19 +22,23 @@ export default function DocumentPage() {
   const docId = pathname.split("/").pop();
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [toolTipMessage, setToolTipMessage] = React.useState("");
-  const [hasAccess, setHasAccess] = React.useState(false);
   const [docMetadata, setDocMetadata] = React.useState<DocumentMetadata | null>(
     null,
   );
+  const [error, setError] = React.useState("");
 
   useEffect(() => {
     async function fetchDocMetadata() {
       if(!docId) return;
 
-      let { data: docsData } = await getDocMetadata(docId);
+      let { data: docsData, error } = await getDocMetadata(docId);
+
+      if(error || !docsData) {
+        setError(error ?? "Document not found");
+        return;
+      }
 
       if(docsData) {
-        setHasAccess(true);
         setDocMetadata({
           name: docsData.name ?? "Untitled Document",
           id: docsData.id,
@@ -47,12 +51,8 @@ export default function DocumentPage() {
     fetchDocMetadata();
   }, [docId]);
 
-  if (!docId) {
-    return <div>Document not found</div>;
-  }
-
-  if (!hasAccess) {
-    return <div>Unauthorized</div>;
+  if (!docId || error) {
+    return <div>{error ?? 'Document not found'}</div>;
   }
 
   return (
