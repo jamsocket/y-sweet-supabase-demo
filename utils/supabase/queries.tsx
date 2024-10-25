@@ -1,5 +1,7 @@
 "use server";
 import { createClient } from "./server";
+import { createDoc as createYSweetDoc } from "@y-sweet/sdk";
+
 
 const supabase = createClient();
 
@@ -88,4 +90,108 @@ export async function getDocMetadata(docId: string) {
       };
     }
   }
+}
+
+export async function getDocs() {
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+
+    if(!user) {
+        return {
+            data: null,
+            error: "User not authenticated",
+        }
+    }
+
+    const { data: permissionData, error: permissionError } = await supabase
+        .from("permissions")
+        .select("doc_id")
+        .eq("user_id", user.id);
+
+    if (permissionError) {
+        console.error("Error fetching permissions:", permissionError);
+        return {
+            data: null,
+            error: "Error fetching permissions",
+        }
+    }
+
+    const docIds =
+        permissionData?.map((permission) => permission.doc_id) || [];
+
+    if (docIds.length === 0) {
+        console.log("No documents found for the user");
+        return {
+            data: [],
+            error: null
+        }
+    }
+
+    const { data: docsData, error: docsError } = await supabase
+        .from("docs")
+        .select("id, doc_id, is_public, name")
+        .in("id", docIds);
+
+    if (docsError) {
+        console.error("Error fetching documents:", docsError);
+        return {
+            data: null,
+            error: "Error fetching documents"
+        }
+    }
+
+    const transformedDocs = docsData?.map((doc: any) => ({
+        doc_id: doc.doc_id,
+        name: doc.name ?? "Untitled Document",
+    }));
+
+    return {
+        data: transformedDocs,
+        error: null
+    }
+}
+
+export async function createDoc() {
+const ysweetDoc = await createYSweetDoc(
+    process.env.Y_SWEET_CONNECTION_STRING ?? "",
+    );
+
+    const {
+        data: { user },
+        error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+        return {
+            data: null,
+            error: "User not authenticated"}
+    }
+
+    const { data: docData, error: docError } = await supabase
+        .from("docs")
+        .insert([{ doc_id: ysweetDoc.docId }])
+        .select();
+
+    if (docError) {
+        return {
+            data: null,
+            error: `Failed to insert doc: ${docError.message}`}
+    }
+
+    const { error: permError } = await supabase
+        .from("permissions")
+        .insert([{ user_id: user.id, doc_id: docData[0].id }])
+        .select();
+
+    if (permError) {
+        return {
+            data: null,
+            error: `Failed to insert permission: ${permError.message}`}
+    }
+
+    return {
+        data: ysweetDoc.docId,
+        error: null
+    }
 }

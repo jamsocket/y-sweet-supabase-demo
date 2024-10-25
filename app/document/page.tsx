@@ -1,6 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
-import CreateDoc from "@/components/create-doc";
-import DisplayDocs from "@/components/display-docs";
+import CreateDoc from "@/components/document/create-doc";
+import DisplayDocs from "@/components/document/display-docs";
 import { redirect } from "next/navigation";
 
 export default async function DocumentHome() {

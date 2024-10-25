@@ -43,7 +43,7 @@ export default function DocumentPage() {
           name: docsData.name ?? "Untitled Document",
           id: docsData.id,
           doc_id: docsData.doc_id,
-          is_public: docsData.is_public ?? false,
+          is_public: docsData.is_public,
         });
       }
     }
