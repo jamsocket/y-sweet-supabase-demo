@@ -57,6 +57,7 @@ If you wish to just develop locally and not deploy to Netlify, [follow the steps
    ```bash
    gh repo clone jamsocket/y-sweet-supabase-demo
    ```
+
    ```bash
    git clone git@github.com:jamsocket/y-sweet-supabase-demo.git
    ```

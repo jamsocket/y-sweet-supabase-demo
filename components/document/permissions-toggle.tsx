@@ -2,7 +2,7 @@
 
 import React from "react";
 import { changeDocVisibility } from "@/utils/supabase/queries";
-import type  {DocumentMetadata} from "@/app/document/[id]/page";
+import type { DocumentMetadata } from "@/app/document/[id]/page";
 
 interface PermissionsToggleProps {
   docId: string;
@@ -12,7 +12,8 @@ interface PermissionsToggleProps {
 }
 
 export default function PermissionsToggle(props: PermissionsToggleProps) {
-  const { docId, documentMetadata, setDocumentMetadata, setToolTipMessage } = props;
+  const { docId, documentMetadata, setDocumentMetadata, setToolTipMessage } =
+    props;
   const [isToggle, setIsToggle] = React.useState(documentMetadata.is_public); // Track toggle state
 
   const handleToggle = async () => {
@@ -22,8 +23,8 @@ export default function PermissionsToggle(props: PermissionsToggleProps) {
     );
 
     let error = await changeDocVisibility(!isToggle, docId);
-    if(!error) {
-      setDocumentMetadata({...documentMetadata, is_public: !isToggle});
+    if (!error) {
+      setDocumentMetadata({ ...documentMetadata, is_public: !isToggle });
     }
 
     setTimeout(() => {

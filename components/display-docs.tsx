@@ -26,7 +26,7 @@ export default function DisplayDocs() {
       const { data: permissionData, error: permissionError } = await supabase
         .from("permissions")
         .select("doc_id")
-        .eq("user_id", user.id)
+        .eq("user_id", user.id);
 
       if (permissionError) {
         console.error("Error fetching permissions:", permissionError);

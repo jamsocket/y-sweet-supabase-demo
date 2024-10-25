@@ -29,16 +29,16 @@ export default function DocumentPage() {
 
   useEffect(() => {
     async function fetchDocMetadata() {
-      if(!docId) return;
+      if (!docId) return;
 
       let { data: docsData, error } = await getDocMetadata(docId);
 
-      if(error || !docsData) {
+      if (error || !docsData) {
         setError(error ?? "Document not found");
         return;
       }
 
-      if(docsData) {
+      if (docsData) {
         setDocMetadata({
           name: docsData.name ?? "Untitled Document",
           id: docsData.id,
@@ -52,7 +52,7 @@ export default function DocumentPage() {
   }, [docId]);
 
   if (!docId || error) {
-    return <div>{error ?? 'Document not found'}</div>;
+    return <div>{error ?? "Document not found"}</div>;
   }
 
   return (
