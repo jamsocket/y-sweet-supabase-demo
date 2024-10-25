@@ -104,7 +104,8 @@ export default function DocumentPage() {
             />
             <PermissionsToggle
               docId={docId}
-              isPublic={docMetadata.is_public}
+              documentMetadata={docMetadata}
+              setDocumentMetadata={setDocMetadata}
               setToolTipMessage={setToolTipMessage}
             />
             <div className="flex gap-4 pt-6">

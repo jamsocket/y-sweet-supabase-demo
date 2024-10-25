@@ -1,8 +1,8 @@
 "use client";
 
 import type { DocumentMetadata } from "../../app/document/[id]/page";
-import { createClient } from "../../utils/supabase/client";
 import { Input } from "../ui/input";
+import { editDocTitle } from "@/utils/supabase/queries";
 
 interface EditableDocTitleProps {
   docId: string;
@@ -12,7 +12,6 @@ interface EditableDocTitleProps {
 
 export default function EditableDocTitle(props: EditableDocTitleProps) {
   const { docId, setDocMetadata, docMetadata } = props;
-  const supabase = createClient();
   const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (docMetadata) {
       setDocMetadata({
@@ -24,10 +23,7 @@ export default function EditableDocTitle(props: EditableDocTitleProps) {
     if (!inThrottle) {
       inThrottle = true;
 
-      await supabase
-        .from("docs") // Assuming your table name is "docs"
-        .update({ name: e.target.value }) // Update the name field
-        .eq("doc_id", docId); // Match the document by its id
+      await editDocTitle(docId, e.target.value);
 
       setTimeout(() => {
         inThrottle = false;

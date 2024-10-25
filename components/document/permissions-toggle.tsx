@@ -1,51 +1,46 @@
 "use client";
 
-import { createClient } from "../../utils/supabase/client";
 import React from "react";
+import { changeDocVisibility } from "@/utils/supabase/queries";
+import type  {DocumentMetadata} from "@/app/document/[id]/page";
 
 interface PermissionsToggleProps {
   docId: string;
-  isPublic: boolean;
+  documentMetadata: DocumentMetadata;
+  setDocumentMetadata: (metadata: DocumentMetadata) => void;
   setToolTipMessage: (message: string) => void;
 }
 
 export default function PermissionsToggle(props: PermissionsToggleProps) {
-  const { docId, isPublic, setToolTipMessage } = props;
-  const [isToggle, setIsToggle] = React.useState(isPublic); // Track toggle state
-  const supabase = createClient();
+  const { docId, documentMetadata, setDocumentMetadata, setToolTipMessage } = props;
+  const [isToggle, setIsToggle] = React.useState(documentMetadata.is_public); // Track toggle state
 
-  const handleToggle = () => {
+  const handleToggle = async () => {
     setIsToggle(!isToggle); // Toggle the state between true and false
     setToolTipMessage(
       !isToggle ? "Document made public" : "Document made private",
     );
 
-    async function updateDocMetadata() {
-      // Update the document's public status in Supabase
-      const { data: docsData, error } = await supabase
-        .from("docs")
-        .update({ is_public: !isToggle }) // Toggle the is_public field
-        .eq("doc_id", docId); // Match the document by its id
+    let error = await changeDocVisibility(!isToggle, docId);
+    if(!error) {
+      setDocumentMetadata({...documentMetadata, is_public: !isToggle});
     }
 
     setTimeout(() => {
       setToolTipMessage("");
     }, 2000);
-    updateDocMetadata();
   };
 
   return (
     <div className="flex items-center gap-4">
       <div>Make this document public</div>
       <div className="flex items-center justify-center">
-        {/* Toggle Button */}
         <div
           onClick={() => handleToggle()}
           className={`w-16 h-8 flex items-center bg-gray-300 rounded-full p-1 cursor-pointer transition-colors duration-300 ${
             isToggle ? "bg-green-500" : "bg-gray-300"
           }`}
         >
-          {/* Toggle Circle */}
           <div
             className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform duration-300 ${
               isToggle ? "translate-x-8" : "translate-x-0"
