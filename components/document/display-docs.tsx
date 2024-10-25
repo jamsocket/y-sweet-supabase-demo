@@ -13,7 +13,6 @@ export default function DisplayDocs() {
   useEffect(() => {
     async function fetchDocs() {
       let { data, error } = await getDocs();
-      console.log(data, error);
       if (error || !data) {
         console.error(error);
         return;
