@@ -14,14 +14,6 @@ export default async function DocumentHome() {
     return redirect("/sign-in");
   }
 
-  // Fetch all documents from the docs table
-  const { data: docs, error } = await supabase.from("docs").select("*"); // Select the doc_id field (or others as needed)
-
-  if (error) {
-    console.error("Error fetching documents:", error);
-    return <div>Error fetching documents</div>;
-  }
-
   return (
     <div className="w-full flex flex-col items-center gap-8 p-4 mx-auto">
       <CreateDoc />
