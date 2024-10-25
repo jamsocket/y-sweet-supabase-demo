@@ -8,7 +8,7 @@ export default function CreateDoc() {
   const router = useRouter();
 
   const onCreateDoc = async () => {
-    let {data, error} = await createDoc();
+    let { data, error } = await createDoc();
 
     if (error) {
       console.error(error);
@@ -18,5 +18,5 @@ export default function CreateDoc() {
     router.push(`/document/${data}`);
   };
 
-  return <Button onClick={() => onCreateDoc()}>+ Create new doc</Button>
+  return <Button onClick={() => onCreateDoc()}>+ Create new doc</Button>;
 }
