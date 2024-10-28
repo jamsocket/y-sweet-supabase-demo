@@ -27,7 +27,7 @@ export default function EditableDocTitle(props: EditableDocTitleProps) {
 
       setTimeout(() => {
         inThrottle = false;
-      }, 1000); // Throttle time of 1 second
+      }, 1000);
     }
   };
 
