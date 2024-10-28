@@ -26,6 +26,7 @@ export default function DocumentPage() {
     null,
   );
   const [error, setError] = React.useState("");
+  const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {
     async function fetchDocMetadata() {
@@ -35,6 +36,7 @@ export default function DocumentPage() {
 
       if (error || !docsData) {
         setError(error ?? "Document not found");
+        setLoading(false);
         return;
       }
 
@@ -45,13 +47,16 @@ export default function DocumentPage() {
           doc_id: docsData.doc_id,
           is_public: docsData.is_public,
         });
+        setLoading(false);
       }
     }
 
     fetchDocMetadata();
   }, [docId]);
 
-  if (!docId || error) {
+  if (loading) {
+    return <div>Loading...</div>;
+  } else if (!docId || error) {
     return <div>{error ?? "Document not found"}</div>;
   }
 
