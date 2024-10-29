@@ -54,8 +54,8 @@ export default function RootLayout({
                     rel="noreferrer"
                   >
                     Y-Sweet
-                  </a>
-                  {" "}&{" "}
+                  </a>{" "}
+                  &{" "}
                   <a
                     href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
                     target="_blank"
