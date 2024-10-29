@@ -3,7 +3,7 @@
 import { useYDoc, useYjsProvider, useAwareness } from "@y-sweet/react";
 import { useEffect, useMemo, useState } from "react";
 import * as Y from "yjs";
-
+import Loading from "@/components/loading";
 import RichtextSlateEditor from "./RichtextSlateEditor";
 
 export function SlateEditor() {
@@ -23,7 +23,7 @@ export function SlateEditor() {
       provider.off("sync", (isSynced: boolean) => setConnected(isSynced));
   }, [provider]);
 
-  if (!connected) return "Loading...";
+  if (!connected) return <Loading />;
 
   return (
     <div className="rounded-lg">
