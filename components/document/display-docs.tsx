@@ -9,16 +9,19 @@ type Docs = {
 };
 export default function DisplayDocs() {
   const [docs, setDocs] = useState<Docs[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchDocs() {
       let { data, error } = await getDocs();
       if (error || !data) {
         console.error(error);
+        setLoading(false);
         return;
       }
 
       setDocs(data);
+      setLoading(false);
     }
     fetchDocs();
   }, []);
@@ -27,7 +30,8 @@ export default function DisplayDocs() {
     <div className="w-full">
       <h2 className="text-2xl font-bold mb-4 w-fit">Recent Documents</h2>
       <div className="flex flex-col gap-4">
-        {docs.length === 0 ? (
+        {loading && <p>Loading...</p>}
+        {!loading && docs.length === 0 ? (
           <p className="text-gray-500">
             No documents found. Start by creating a new document!
           </p>
