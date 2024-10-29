@@ -1,6 +1,6 @@
 "use server";
 import { createClient } from "./server";
-import { createDoc as createYSweetDoc } from "@y-sweet/sdk";
+import { manager } from "../y-sweet-document-manager";
 
 const supabase = createClient();
 
@@ -151,9 +151,7 @@ export async function getDocs() {
 }
 
 export async function createDoc() {
-  const ysweetDoc = await createYSweetDoc(
-    process.env.Y_SWEET_CONNECTION_STRING ?? "",
-  );
+  const ysweetDoc = await manager.createDoc();
 
   const {
     data: { user },
