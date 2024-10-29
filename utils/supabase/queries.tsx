@@ -2,9 +2,8 @@
 import { createClient } from "./server";
 import { manager } from "../y-sweet-document-manager";
 
-const supabase = createClient();
-
 export async function addUserToDoc(newEmail: string, id: string) {
+  const supabase = createClient();
   // In a production environment, you should verify the user's permission to share the specified doc_id.
   const { data: user, error: userError } = await supabase
     .from("users")
@@ -29,11 +28,13 @@ export async function addUserToDoc(newEmail: string, id: string) {
 }
 
 export async function editDocTitle(docId: string, newName: string) {
+  const supabase = createClient();
   // In a production environment, you should check that the user has permission to edit the doc and add error handling.
   await supabase.from("docs").update({ name: newName }).eq("doc_id", docId);
 }
 
 export async function changeDocVisibility(isPublic: boolean, docId: string) {
+  const supabase = createClient();
   // In a production environment, you should check that the user has permission to edit the doc and add error handling.
   const { data, error } = await supabase
     .from("docs")
@@ -47,6 +48,7 @@ export async function changeDocVisibility(isPublic: boolean, docId: string) {
 }
 
 export async function getDocMetadata(docId: string) {
+  const supabase = createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -92,6 +94,7 @@ export async function getDocMetadata(docId: string) {
 }
 
 export async function getDocs() {
+  const supabase = createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -151,6 +154,7 @@ export async function getDocs() {
 }
 
 export async function createDoc() {
+  const supabase = createClient();
   const ysweetDoc = await manager.createDoc();
 
   const {
