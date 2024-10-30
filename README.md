@@ -6,21 +6,25 @@
 </p>
 
 <p align="center">
+<a href="#introduction"><strong>Introduction</strong></a> ·
   <a href="#features"><strong>Features</strong></a> ·
   <a href="#clone-and-run-locally"><strong>Clone and run locally</strong></a> ·
   <a href="#deploy-to-netlify"><strong>Deploy to Netlify</strong></a>
 </p>
 <br/>
 
+## Introduction
+
+The Jamsocket and Supabase Starter Kit shows you how to implement core features of a real-time application like Google Docs. It covers collaborative text editing with Y-Sweet and document management with Supabase.
+
 ## Features
 
-A full-fledged collaborative text editor
-- Live collaboration
-- Slate rich text editor
-- Document permissions
-- Auth and user management
-- Document persistence
-- It just works!
+A full-fledged collaborative text editor with end-to-end features including:
+- **Live Collaboration**: Real-time sync powered by Y-Sweet, Jamsocket's Yjs server with built-in persistence to AWS S3.
+- **Slate Rich Text Editor**: A fully customizable editor interface.
+- **Document Permissions & User Management**: Managed through Supabase, which handles authentication, permissions, and document storage.
+- **Easy Persistence**: Bring Your Own Storage (BYOS) with S3 or use Supabase's native storage service.
+- **Effortless Deployment**: Ready for local development or deployment to Netlify.
 
 ## How Supabase and Jamsocket work together
 
