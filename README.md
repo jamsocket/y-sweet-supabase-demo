@@ -24,11 +24,11 @@ A full-fledged collaborative text editor
 
 ## How Supabase and Jamsocket work together
 
-Use Y-Sweet, Jamsocket's Yjs server, for document collaboration.
+Use [Y-Sweet](https://jamsocket.com/y-sweet), Jamsocket's Yjs server, for document collaboration.
 
 - Y-Sweet is a Yjs sync server with built-in persistence to S3. This demo uses Y-Sweet to sync and persist documents as users edit.
 
-Use Supabase for document management.
+Use [Supabase](https://supabase.com/) for document management.
 
 - Supabase manages everything around the document, from document permissions to user authentication.
 
