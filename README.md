@@ -14,12 +14,13 @@
 
 ## Features
 
-- A full-fledged collaborative text editor
-  - Live collaboration
-  - Document permissions
-  - User management
-  - Document persistence
-  - It just works!
+A full-fledged collaborative text editor
+- Live collaboration
+- Slate rich text editor
+- Document permissions
+- Auth and user management
+- Document persistence
+- It just works!
 
 ## How Supabase and Jamsocket work together
 
