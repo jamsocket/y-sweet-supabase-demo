@@ -28,7 +28,8 @@ export default function EditableDocTitle(props: EditableDocTitleProps) {
 
     debounceTimeoutRef.current = setTimeout(async () => {
       debounceTimeoutRef.current = null;
-      await editDocTitle(docId, e.target.value);
+      // TODO: display this error message and revert the title
+      const error = await editDocTitle(docId, e.target.value);
     }, 1000);
   };
 
