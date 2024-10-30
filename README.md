@@ -7,9 +7,8 @@
 
 <p align="center">
   <a href="#features"><strong>Features</strong></a> ·
-  <a href="#demo"><strong>Demo</strong></a> ·
-  <a href="#deploy-to-netlify"><strong>Deploy to Netlify</strong></a> ·
-  <a href="#clone-and-run-locally"><strong>Clone and run locally</strong></a>
+  <a href="#clone-and-run-locally"><strong>Clone and run locally</strong></a> ·
+  <a href="#deploy-to-netlify"><strong>Deploy to Netlify</strong></a>
 </p>
 <br/>
 
@@ -31,20 +30,6 @@ Use Y-Sweet, Jamsocket's Yjs server, for document collaboration.
 Use Supabase for document management.
 
 - Supabase manages everything around the document, from document permissions to user authentication.
-
-## Demo
-
-You can view a fully working demo at [demo-y-sweet-supabase.netlify.app](https://demo-y-sweet-supabase.netlify.app/).
-
-## Deploy to Netlify
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/extension/start/deploy?repository=https://github.com/jamsocket/y-sweet-supabase-demo)
-
-The above will also clone the Starter kit to your GitHub, you can clone that locally and develop locally.
-
-Once you've added this project to Netlify, install the [Jamsocket](https://app.netlify.com/extensions/jamsocket) and [Supabase](https://app.netlify.com/extensions/supabase) extensions to add the necessary environment variables for your application.
-
-If you wish to just develop locally and not deploy to Netlify, [follow the steps below](#clone-and-run-locally).
 
 ## Clone and run locally
 
@@ -89,3 +74,13 @@ If you wish to just develop locally and not deploy to Netlify, [follow the steps
    The starter kit should now be running on [localhost:3000](http://localhost:3000/).
 
 7. Y-Sweet allows you to choose where you persist your documents. This demo uses Y-Sweet's [Bring Your Own Storage](https://app.jamsocket.com/) feature to automatically persist your document to your own AWS S3 Bucket. [Contact us](mailto:hi@jamsocket.com) to get set up, or explore Supabase's [storage service](https://supabase.com/docs/guides/storage).
+
+## Deploy to Netlify
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/extension/start/deploy?repository=https://github.com/jamsocket/y-sweet-supabase-demo)
+
+The above will also clone the Starter kit to your GitHub, you can clone that locally and develop locally.
+
+Once you've added this project to Netlify, install the [Jamsocket](https://app.netlify.com/extensions/jamsocket) and [Supabase](https://app.netlify.com/extensions/supabase) extensions to add the necessary environment variables for your application.
+
+If you wish to just develop locally and not deploy to Netlify, [follow the steps below](#clone-and-run-locally).
