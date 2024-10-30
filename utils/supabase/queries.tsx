@@ -1,24 +1,45 @@
 "use server";
+
 import { createClient } from "./server";
 import { manager } from "../y-sweet-document-manager";
 
-export async function addUserToDoc(newEmail: string, id: string) {
+export async function addUserToDoc(newEmail: string, docId: string) {
   const supabase = createClient();
-  // In a production environment, you should verify the user's permission to share the specified doc_id.
-  const { data: user, error: userError } = await supabase
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user?.id) {
+    return "User not authenticated";
+  }
+
+  const { data: permissionsData, error: permError } = await supabase
+    .from("permissions")
+    .select("id")
+    .eq("doc_id", docId)
+    .eq("user_id", user.id);
+
+  if (permError || !permissionsData?.length) {
+    console.error(
+      "User does not have permission to invite other users to this document",
+      permError,
+    );
+    return "User does not have permission to invite other users to this document";
+  }
+
+  const { data: invitedUser, error: userError } = await supabase
     .from("users")
     .select("id")
     .eq("email", newEmail)
     .single();
 
-  if (!user || userError) {
-    console.error("User not found", userError);
-    return "User not found";
+  if (!invitedUser || userError) {
+    console.error("Invited user not found", userError);
+    return "Invited user not found";
   }
 
   const { error } = await supabase
     .from("permissions")
-    .insert([{ doc_id: id, user_id: user.id }])
+    .insert([{ doc_id: docId, user_id: invitedUser.id }])
     .select();
 
   if (error) {
@@ -29,17 +50,57 @@ export async function addUserToDoc(newEmail: string, id: string) {
 
 export async function editDocTitle(docId: string, newName: string) {
   const supabase = createClient();
-  // In a production environment, you should check that the user has permission to edit the doc and add error handling.
-  await supabase.from("docs").update({ name: newName }).eq("doc_id", docId);
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user?.id) {
+    return "User not authenticated";
+  }
+
+  const { data: permissionsData, error: permError } = await supabase
+    .from("permissions")
+    .select("*")
+    .eq("doc_id", docId)
+    .eq("user_id", user.id);
+
+  if (permError || !permissionsData?.length) {
+    console.error(
+      "User does not have access to edit the title of this document",
+      permError,
+    );
+    return "User does not have access to edit the title of this document";
+  }
+  await supabase.from("docs").update({ name: newName }).eq("id", docId);
 }
 
 export async function changeDocVisibility(isPublic: boolean, docId: string) {
   const supabase = createClient();
-  // In a production environment, you should check that the user has permission to edit the doc and add error handling.
-  const { data, error } = await supabase
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user?.id) {
+    return "User not authenticated";
+  }
+
+  const { data: permissionsData, error: permError } = await supabase
+    .from("permissions")
+    .select("*")
+    .eq("doc_id", docId)
+    .eq("user_id", user.id);
+
+  if (permError || !permissionsData?.length) {
+    console.error(
+      "User does not have access to change visibility of this document",
+      permError,
+    );
+    return "User does not have access to change visibility of this document";
+  }
+
+  const { error } = await supabase
     .from("docs")
     .update({ is_public: isPublic })
-    .eq("doc_id", docId);
+    .eq("id", docId);
 
   if (error) {
     console.error("Failed to update doc visibility", error);
@@ -49,14 +110,11 @@ export async function changeDocVisibility(isPublic: boolean, docId: string) {
 
 export async function getDocMetadata(docId: string) {
   const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
 
   const { data: docsData, error } = await supabase
     .from("docs")
     .select("*")
-    .eq("doc_id", docId);
+    .eq("id", docId);
 
   if (!docsData || docsData.length === 0 || error) {
     console.error("Document not found", error);
@@ -71,26 +129,34 @@ export async function getDocMetadata(docId: string) {
       data: docsData[0],
       error: null,
     };
-  } else {
-    const { data: permissionsData, error: permError } = await supabase
-      .from("permissions")
-      .select("id")
-      .eq("doc_id", docsData[0].id)
-      .eq("user_id", user?.id);
-
-    if (permError || !permissionsData) {
-      console.error("User does not have access to this document", permError);
-      return {
-        data: null,
-        error: "User does not have access to this document",
-      };
-    } else {
-      return {
-        data: docsData[0],
-        error: null,
-      };
-    }
   }
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user?.id) {
+    return {
+      data: null,
+      error: "User not authenticated",
+    };
+  }
+  const { data: permissionsData, error: permError } = await supabase
+    .from("permissions")
+    .select("id")
+    .eq("doc_id", docsData[0].id)
+    .eq("user_id", user.id);
+
+  if (permError || !permissionsData?.length) {
+    console.error("User does not have access to this document", permError);
+    return {
+      data: null,
+      error: "User does not have access to this document",
+    };
+  }
+  return {
+    data: docsData[0],
+    error: null,
+  };
 }
 
 export async function getDocs() {
@@ -131,7 +197,7 @@ export async function getDocs() {
 
   const { data: docsData, error: docsError } = await supabase
     .from("docs")
-    .select("id, doc_id, is_public, name")
+    .select("id, is_public, name")
     .in("id", docIds);
 
   if (docsError) {
@@ -143,7 +209,7 @@ export async function getDocs() {
   }
 
   const transformedDocs = docsData?.map((doc: any) => ({
-    doc_id: doc.doc_id,
+    doc_id: doc.id,
     name: doc.name ?? "Untitled Document",
   }));
 
@@ -171,7 +237,7 @@ export async function createDoc() {
 
   const { data: docData, error: docError } = await supabase
     .from("docs")
-    .insert([{ doc_id: ysweetDoc.docId }])
+    .insert([{ id: ysweetDoc.docId }])
     .select();
 
   if (docError) {

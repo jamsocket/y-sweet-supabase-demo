@@ -9,6 +9,7 @@ import CopyLink from "../../../components/document/copy-link";
 import PermissionsToggle from "../../../components/document/permissions-toggle";
 import InviteByEmail from "../../../components/document/invite-by-email";
 import { getDocMetadata } from "@/utils/supabase/queries";
+import Loading from "@/components/loading";
 
 export type DocumentMetadata = {
   name: string;
@@ -55,7 +56,7 @@ export default function DocumentPage() {
   }, [docId]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   } else if (!docId || error) {
     return <div>{error ?? "Document not found"}</div>;
   }

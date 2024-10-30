@@ -48,12 +48,21 @@ export default function RootLayout({
                 <p>
                   Powered by{" "}
                   <a
+                    href="https://jamsocket.com/y-sweet"
+                    target="_blank"
+                    className="font-bold hover:underline"
+                    rel="noreferrer"
+                  >
+                    Y-Sweet
+                  </a>{" "}
+                  &{" "}
+                  <a
                     href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
                     target="_blank"
                     className="font-bold hover:underline"
                     rel="noreferrer"
                   >
-                    Y-Sweet & Supabase
+                    Supabase
                   </a>
                 </p>
               </footer>

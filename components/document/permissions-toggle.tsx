@@ -14,17 +14,20 @@ interface PermissionsToggleProps {
 export default function PermissionsToggle(props: PermissionsToggleProps) {
   const { docId, documentMetadata, setDocumentMetadata, setToolTipMessage } =
     props;
-  const [isToggle, setIsToggle] = React.useState(documentMetadata.is_public); // Track toggle state
+  const [isPublic, setIsPublic] = React.useState(documentMetadata.is_public); // Track toggle state
 
   const handleToggle = async () => {
-    setIsToggle(!isToggle); // Toggle the state between true and false
-    setToolTipMessage(
-      !isToggle ? "Document made public" : "Document made private",
-    );
+    setIsPublic(!isPublic); // Toggle the state between true and false
 
-    let error = await changeDocVisibility(!isToggle, docId);
-    if (!error) {
-      setDocumentMetadata({ ...documentMetadata, is_public: !isToggle });
+    const error = await changeDocVisibility(!isPublic, docId);
+    if (error) {
+      setToolTipMessage(error);
+      setIsPublic(isPublic);
+    } else {
+      setDocumentMetadata({ ...documentMetadata, is_public: !isPublic });
+      setToolTipMessage(
+        !isPublic ? "Document made public" : "Document made private",
+      );
     }
 
     setTimeout(() => {
@@ -39,12 +42,12 @@ export default function PermissionsToggle(props: PermissionsToggleProps) {
         <div
           onClick={() => handleToggle()}
           className={`w-16 h-8 flex items-center bg-gray-300 rounded-full p-1 cursor-pointer transition-colors duration-300 ${
-            isToggle ? "bg-green-500" : "bg-gray-300"
+            isPublic ? "bg-green-500" : "bg-gray-300"
           }`}
         >
           <div
             className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform duration-300 ${
-              isToggle ? "translate-x-8" : "translate-x-0"
+              isPublic ? "translate-x-8" : "translate-x-0"
             }`}
           ></div>
         </div>

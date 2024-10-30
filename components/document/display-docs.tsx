@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { getDocs } from "@/utils/supabase/queries";
+import Loading from "@/components/loading";
 
 type Docs = {
   doc_id: string;
@@ -30,7 +31,7 @@ export default function DisplayDocs() {
     <div className="w-full">
       <h2 className="text-2xl font-bold mb-4 w-fit">Recent Documents</h2>
       <div className="flex flex-col gap-4">
-        {loading && <p>Loading...</p>}
+        {loading && <Loading />}
         {!loading && docs.length === 0 ? (
           <p className="text-gray-500">
             No documents found. Start by creating a new document!

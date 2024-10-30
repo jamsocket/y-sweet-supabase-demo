@@ -1,6 +1,5 @@
 CREATE TABLE public.docs (
-    id uuid DEFAULT gen_random_uuid() PRIMARY KEY, -- Unique identifier for the document
-    doc_id text NOT NULL, -- Document ID string
+    id varchar(256) PRIMARY KEY NOT NULL, -- Unique identifier for the document
     is_public boolean,
     name text
 );
@@ -8,7 +7,7 @@ CREATE TABLE public.docs (
 CREATE TABLE public.permissions (
     id uuid DEFAULT gen_random_uuid() PRIMARY KEY, -- Unique identifier for the permission
     user_id uuid REFERENCES auth.users (id) ON DELETE CASCADE, -- User ID, references the users table
-    doc_id uuid REFERENCES public.docs (id) ON DELETE CASCADE, -- Document ID, references the docs table
+    doc_id varchar(256) REFERENCES public.docs (id) ON DELETE CASCADE, -- Document ID, references the docs table
     CONSTRAINT unique_user_doc_permission UNIQUE (user_id, doc_id) -- Ensure unique combination
 );
 
