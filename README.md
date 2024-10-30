@@ -19,7 +19,7 @@ The Jamsocket and Supabase Starter Kit shows you how to implement core features 
 
 ## Features
 
-A full-fledged collaborative text editor with end-to-end features including:
+A full-fledged collaborative text editor with:
 - **Live Collaboration**: Real-time sync powered by Y-Sweet, Jamsocket's Yjs server with built-in persistence to AWS S3.
 - **Slate Rich Text Editor**: A fully customizable editor interface.
 - **Document Permissions & User Management**: Managed through Supabase, which handles authentication, permissions, and document storage.
