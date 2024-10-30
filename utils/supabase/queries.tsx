@@ -110,15 +110,6 @@ export async function changeDocVisibility(isPublic: boolean, docId: string) {
 
 export async function getDocMetadata(docId: string) {
   const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user?.id) {
-    return {
-      data: null,
-      error: "User not authenticated",
-    };
-  }
 
   const { data: docsData, error } = await supabase
     .from("docs")
@@ -140,6 +131,15 @@ export async function getDocMetadata(docId: string) {
     };
   }
 
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user?.id) {
+    return {
+      data: null,
+      error: "User not authenticated",
+    };
+  }
   const { data: permissionsData, error: permError } = await supabase
     .from("permissions")
     .select("id")
