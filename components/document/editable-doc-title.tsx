@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import type { DocumentMetadata } from "../../app/document/[id]/page";
 import { Input } from "../ui/input";
 import { editDocTitle } from "@/utils/supabase/queries";
@@ -13,6 +13,7 @@ interface EditableDocTitleProps {
 
 export default function EditableDocTitle(props: EditableDocTitleProps) {
   const { docId, setDocMetadata, docMetadata } = props;
+  const [error, setError] = useState("");
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const handleInputChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (docMetadata) {
@@ -28,17 +29,23 @@ export default function EditableDocTitle(props: EditableDocTitleProps) {
 
     debounceTimeoutRef.current = setTimeout(async () => {
       debounceTimeoutRef.current = null;
-      // TODO: display this error message and revert the title
       const error = await editDocTitle(docId, e.target.value);
+      if (error) {
+        setError(error);
+      }
+      setTimeout(() => setError(""), 4000);
     }, 1000);
   };
 
   return (
-    <Input
-      value={docMetadata?.name ?? ""}
-      onChange={handleInputChange}
-      className="text-2xl font-bold mb-4 w-fit"
-      placeholder="Untitled Document"
-    />
+    <>
+      <Input
+        value={docMetadata?.name ?? ""}
+        onChange={handleInputChange}
+        className="text-2xl font-bold mb-4 w-fit"
+        placeholder="Untitled Document"
+      />
+      {error && <p className="text-red-500">{error}</p>}
+    </>
   );
 }
