@@ -18,7 +18,7 @@ export async function addUserToDoc(newEmail: string, docId: string) {
     .eq("doc_id", docId)
     .eq("user_id", user.id);
 
-  if (permError || !permissionsData) {
+  if (permError || !permissionsData?.length) {
     console.error(
       "User does not have permission to invite other users to this document",
       permError,
@@ -59,18 +59,18 @@ export async function editDocTitle(docId: string, newName: string) {
 
   const { data: permissionsData, error: permError } = await supabase
     .from("permissions")
-    .select("id")
+    .select("*")
     .eq("doc_id", docId)
     .eq("user_id", user.id);
 
-  if (permError || !permissionsData) {
+  if (permError || !permissionsData?.length) {
     console.error(
-      "User does not have access to change visibility of this document",
+      "User does not have access to edit the title of this document",
       permError,
     );
-    return "User does not have access to change visibility of this document";
+    return "User does not have access to edit the title of this document";
   }
-  await supabase.from("docs").update({ name: newName }).eq("doc_id", docId);
+  await supabase.from("docs").update({ name: newName }).eq("id", docId);
 }
 
 export async function changeDocVisibility(isPublic: boolean, docId: string) {
@@ -85,11 +85,11 @@ export async function changeDocVisibility(isPublic: boolean, docId: string) {
 
   const { data: permissionsData, error: permError } = await supabase
     .from("permissions")
-    .select("id")
+    .select("*")
     .eq("doc_id", docId)
     .eq("user_id", user.id);
 
-  if (permError || !permissionsData) {
+  if (permError || !permissionsData?.length) {
     console.error(
       "User does not have access to change visibility of this document",
       permError,
@@ -100,7 +100,7 @@ export async function changeDocVisibility(isPublic: boolean, docId: string) {
   const { error } = await supabase
     .from("docs")
     .update({ is_public: isPublic })
-    .eq("doc_id", docId);
+    .eq("id", docId);
 
   if (error) {
     console.error("Failed to update doc visibility", error);
@@ -123,7 +123,7 @@ export async function getDocMetadata(docId: string) {
   const { data: docsData, error } = await supabase
     .from("docs")
     .select("*")
-    .eq("doc_id", docId);
+    .eq("id", docId);
 
   if (!docsData || docsData.length === 0 || error) {
     console.error("Document not found", error);
@@ -146,7 +146,7 @@ export async function getDocMetadata(docId: string) {
     .eq("doc_id", docsData[0].id)
     .eq("user_id", user.id);
 
-  if (permError || !permissionsData) {
+  if (permError || !permissionsData?.length) {
     console.error("User does not have access to this document", permError);
     return {
       data: null,
@@ -197,7 +197,7 @@ export async function getDocs() {
 
   const { data: docsData, error: docsError } = await supabase
     .from("docs")
-    .select("id, doc_id, is_public, name")
+    .select("id, is_public, name")
     .in("id", docIds);
 
   if (docsError) {
@@ -209,7 +209,7 @@ export async function getDocs() {
   }
 
   const transformedDocs = docsData?.map((doc: any) => ({
-    doc_id: doc.doc_id,
+    doc_id: doc.id,
     name: doc.name ?? "Untitled Document",
   }));
 
@@ -237,7 +237,7 @@ export async function createDoc() {
 
   const { data: docData, error: docError } = await supabase
     .from("docs")
-    .insert([{ doc_id: ysweetDoc.docId }])
+    .insert([{ id: ysweetDoc.docId }])
     .select();
 
   if (docError) {
