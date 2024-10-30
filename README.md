@@ -36,7 +36,7 @@ Use [Supabase](https://supabase.com/) for document management.
 
 1. Create a Y-Sweet service [via the Jamsocket dashboard](https://app.jamsocket.com)
 
-2. Create Supabase project [via the Supabase dashboard](https://database.new)
+2. Create a Supabase project [via the Supabase dashboard](https://database.new)
 
 3. Clone the Y-Sweet Supabase Starter template using
 
