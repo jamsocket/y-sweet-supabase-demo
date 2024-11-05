@@ -1,5 +1,5 @@
 <img src="/app/opengraph-image.png" alt="opengraph-image" style="display: block; margin: 0 auto;" />
-<h1 align="center">Jamsocket and Supabase Starter Kit</h1>
+<a href="https://y-sweet-supabase-demo.netlify.app"<h1 align="center">Jamsocket and Supabase Starter Kit</h1></a>
 
 <p align="center">
  The fastest way to build apps with Supabase and Y-Sweet by Jamsocket
@@ -16,6 +16,8 @@
 ## Introduction
 
 The Jamsocket and Supabase Starter Kit shows you how to implement core features of a real-time application like Google Docs. It covers collaborative text editing with Y-Sweet and document management with Supabase.
+
+[Try it live](https://y-sweet-supabase-demo.netlify.app)
 
 ## Features
 
@@ -66,7 +68,9 @@ Use [Supabase](https://supabase.com/) for document management.
 
 5. Setup your database on [Supabase](https://supabase.com/) and run the commands in `setup.sql`
 
-6. You can now run the Next.js local development server:
+6. In the [Auth Providers](https://supabase.com/dashboard/project/_/auth/providers) page, disable `Confirm Email` under `Email`. For the purposes of this demo, disabling `Confirm Email` will allow us to focus on the application logic itself.
+
+7. You can now run the Next.js local development server:
 
    ```bash
    npm install
@@ -78,7 +82,7 @@ Use [Supabase](https://supabase.com/) for document management.
 
    The starter kit should now be running on [localhost:3000](http://localhost:3000/).
 
-7. Y-Sweet allows you to choose where you persist your documents. This demo uses Y-Sweet's [Bring Your Own Storage](https://app.jamsocket.com/) feature to automatically persist your document to your own AWS S3 Bucket. [Contact us](mailto:hi@jamsocket.com) to get set up, or explore Supabase's [storage service](https://supabase.com/docs/guides/storage).
+8. Y-Sweet allows you to choose where you persist your documents. This demo uses Y-Sweet's [Bring Your Own Storage](https://app.jamsocket.com/) feature to automatically persist your document to your own AWS S3 Bucket. [Contact us](mailto:hi@jamsocket.com) to get set up, or explore Supabase's [storage service](https://supabase.com/docs/guides/storage).
 
 ## Deploy to Netlify
 
@@ -88,4 +92,4 @@ The above will also clone the Starter kit to your GitHub, you can clone that loc
 
 Once you've added this project to Netlify, install the [Jamsocket](https://app.netlify.com/extensions/jamsocket) and [Supabase](https://app.netlify.com/extensions/supabase) extensions to add the necessary environment variables for your application.
 
-If you wish to just develop locally and not deploy to Netlify, [follow the steps below](#clone-and-run-locally).
+[Try our live demo.](https://y-sweet-supabase-demo.netlify.app)
