@@ -1,6 +1,7 @@
 <img src="/app/opengraph-image.png" alt="opengraph-image" style="display: block; margin: 0 auto;" />
 <h1 align="center">
 <a href="https://y-sweet-supabase-demo.netlify.app">Jamsocket and Supabase Starter Kit</a>
+</h1>
 
 <p align="center">
  The fastest way to build apps with Supabase and Y-Sweet by Jamsocket
