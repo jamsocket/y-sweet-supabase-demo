@@ -27,7 +27,7 @@ A full-fledged collaborative text editor with:
 - **Live Collaboration**: Real-time sync powered by Y-Sweet, Jamsocket's Yjs server with built-in persistence to AWS S3.
 - **Slate Rich Text Editor**: A fully customizable editor interface.
 - **Document Permissions & User Management**: Managed through Supabase, which handles authentication, permissions, and document storage.
-- **Easy Persistence**: Bring Your Own Storage (BYOS) with S3 or use Supabase's native storage service.
+- **Easy Persistence**: Bring Your Own Storage (BYOS) with S3.
 - **Effortless Deployment**: Ready for local development or deployment to Netlify.
 
 ## How Supabase and Jamsocket work together
